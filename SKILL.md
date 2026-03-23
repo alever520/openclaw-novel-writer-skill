@@ -322,14 +322,29 @@ git log --oneline -1
 - [✅/❌] 信息密度适中
 
 ### 最佳实践 (3项)
-- [✅/❌] 应用标志性特征
-- [✅/❌] 人物深度塑造
+- [✅/❌] 应用标志性特征（参考 characters.md）
+- [✅/❌] 人物深度塑造（肢体语言、核心恐惧）
 - [✅/❌] 处理读者反馈
 
 **自查通过率**: X/15 项
 ```
 
-**6.3 优化要点总结（仅重新创作时）**
+**6.3 角色变更记录**（如有）
+```markdown
+## 🎭 角色变更
+
+### [角色名]
+- **变更类型**: [性格/能力/关系/外貌]
+- **具体变更**: 
+  - 旧: [原设定]
+  - 新: [新设定]
+- **变更原因**: [剧情需要/读者反馈/合理化调整]
+- **影响**: [对后续剧情的影响]
+
+**需要更新 characters.md**: ✅/❌
+```
+
+**6.4 优化要点总结**（仅重新创作时）
 ```markdown
 ## 🔄 优化要点总结
 
@@ -637,6 +652,8 @@ git push
 **适用范围**: 
 - ✅ references/writing-guide.md（创作指南）
 - ✅ references/outline.md（大纲文件）
+- ✅ references/characters.md（人物设定卡）
+- ✅ references/reader-feedback.md（读者反馈）
 - ✅ references/ 目录下的所有参考文档
 
 **版本管理原则**:
@@ -932,10 +949,16 @@ git push origin main --force
 
 ### 参考文档
 ```
-outline-template.md      # 大纲模板
-reader-feedback.md       # 读者反馈
-writing-guide.md         # 创作指南
+outline.md               # 大纲（当前版本，Git 管理历史）
+characters.md            # 人物设定卡（包含所有主要角色）
+reader-feedback.md       # 读者反馈记录
+writing-guide.md         # 创作指南与最佳实践
 ```
+
+**版本管理**:
+- 所有 references 文件直接修改，不创建副本
+- Git 自动追踪历史，可随时回滚
+- 每次更新在文档末尾记录变更日志
 
 ### 文档参考
 ```
@@ -1142,7 +1165,7 @@ docs/
 
 ```yaml
 skill_name: novel-writer
-version: 1.2.2
+version: 1.3.0
 author: OpenClaw
 description: 网络小说创作与管理的系统化工具
 triggers:
@@ -1167,7 +1190,16 @@ capabilities:
   - 最佳实践更新
   - 版本控制与回滚
   - 章节总结与分析
+  - 人物设定卡管理
 changelog:
+  v1.3.0:
+    - 新增: references/characters.md 人物设定卡系统
+    - 新增: 9个维度的人物卡格式（基本信息、外貌、性格、标志性特征、核心恐惧、成长曲线、关系网络、背景、能力）
+    - 新增: 章节总结中增加"角色变更记录"部分
+    - 优化: 创作时参考 characters.md 中的人物设定
+    - 优化: 读者反馈可对照更新人物设定
+    - 优化: 人物设定变更记录在文档末尾
+    - 规范: characters.md 同样遵循 Git 版本控制原则
   v1.2.2:
     - 优化: references 文件更新统一遵循 Git 版本控制原则
     - 明确: 所有 references 文件直接修改，不创建副本或后缀版本
