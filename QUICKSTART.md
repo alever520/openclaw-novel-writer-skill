@@ -90,11 +90,15 @@ cd my-novel/
 你: 写第一章
 AI: 
   1. 读取大纲第一章任务
-  2. 读取创作指南和反馈
+  2. 读取 writing-guide.md、characters.md、reader-feedback.md
   3. 创作3000-5000字章节
-  4. 自检（剧情、语言、节奏）
+  4. 【正文自检循环】
+     - 第一轮: 对照 writing-guide.md 逐条核查
+     - 第二轮: 对照 characters.md 逐角色核查
+     - 第三轮: 对照 reader-feedback.md 核查待处理问题
+     - 发现问题立即修正正文，全部通过才提交
   5. 提交到 Git
-  6. 汇报完成情况
+  6. 汇报完成情况（含自检循环结果）
 ```
 
 ### 处理反馈
