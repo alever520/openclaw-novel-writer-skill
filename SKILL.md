@@ -919,6 +919,13 @@ git commit -m "创建大纲 v4.0: 250万字详细规划
 
 **操作流程**:
 
+**步骤0: 同步远程仓库（必须）**
+```bash
+cd <novel-name>
+git pull --rebase
+```
+⚠️ **重要**: 所有检查操作前必须先同步远程仓库，确保本地和远程一致！
+
 **步骤1: 扫描 docs/reader-feedback/ 文件夹**
 ```bash
 cd <novel-name>/docs/reader-feedback
@@ -928,7 +935,7 @@ ls -lt *.md | head -10  # 列出最近修改的文件
 **步骤2: 读取新增/修改的反馈文档**
 ```bash
 # 对比上次更新时间，找出新文档
-find docs/reader-feedback/ -name "*.md" -newer references/reader-feedback.md
+find docs/reader-feedback/ -name "*.md" ! -name "README.md" -newer references/reader-feedback.md
 ```
 
 **步骤3: 提取反馈要点**
@@ -1057,6 +1064,13 @@ git push
 **触发**: "更新人物卡" / "同步人物设定"
 
 **操作流程**:
+
+**步骤0: 同步远程仓库（必须）**
+```bash
+cd <novel-name>
+git pull --rebase
+```
+⚠️ **重要**: 所有检查操作前必须先同步远程仓库，确保本地和远程一致！
 
 **步骤1: 扫描 docs/characters/ 文件夹**
 ```bash
@@ -1246,6 +1260,13 @@ git push
 **说明**: 此指令与"更新最佳实践"类似，但专门针对 docs/writing-guide/ 文件夹。
 
 **操作流程**:
+
+**步骤0: 同步远程仓库（必须）**
+```bash
+cd <novel-name>
+git pull --rebase
+```
+⚠️ **重要**: 所有检查操作前必须先同步远程仓库，确保本地和远程一致！
 
 **步骤1: 扫描 docs/writing-guide/ 文件夹**
 ```bash
@@ -1692,7 +1713,7 @@ docs/
 
 ```yaml
 skill_name: novel-writer
-version: 1.4.0
+version: 1.4.1
 author: OpenClaw
 description: 网络小说创作与管理的系统化工具
 triggers:
@@ -1723,6 +1744,11 @@ capabilities:
   - 版本控制与回滚
   - 章节总结与分析
 changelog:
+  v1.4.1:
+    - 修复: 所有更新指令增加步骤0 - 同步远程仓库（git pull --rebase）
+    - 重要: 确保本地分支和远程分支一致后再进行文件扫描
+    - 适用: 更新读者反馈、更新人物卡、更新写作指导
+    - 原因: 避免检查到过时的本地文件列表
   v1.4.0:
     - 新增: 初始化时创建三个 docs 子文件夹（reader-feedback/characters/writing-guide）
     - 新增: "更新读者反馈"指令，扫描 docs/reader-feedback/ 并整合到 references/reader-feedback.md
