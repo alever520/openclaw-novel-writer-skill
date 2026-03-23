@@ -8,7 +8,8 @@
 
 当用户提到以下任一场景时激活本 Skill：
 - "写小说" / "创作小说" / "开始新小说"
-- "更新章节" / "写下一章"
+- "写第X章" / "创作下一章" / "继续写"
+- "重新创作第X章" / "重写第X章" / "修改第X章"
 - "读者反馈" / "更新最佳实践"
 - "初始化小说项目" / "创建小说仓库"
 
@@ -163,7 +164,9 @@ touch references/writing-guide.md
 
 ### 2. 章节创作流程
 
-**触发**: "写第X章" / "创作下一章" / "继续写"
+**触发**: 
+- 新创作："写第X章" / "创作下一章" / "继续写"
+- 重新创作："重新创作第X章" / "重写第X章"
 
 **操作流程**:
 
@@ -222,25 +225,65 @@ touch references/writing-guide.md
 ```
 
 **步骤5: 提交到 GitHub**
+
+**5.1 文件命名与版本控制**
+
+**新创作章节**:
 ```bash
-# 保存章节到 chapters/ 目录
+# 文件名: 第XXX章-标题.md（使用三位数编号）
+chapters/第001章-新生.md
+chapters/第023章-浮空城升空.md
+```
+
+**重新创作章节**:
+```bash
+# 保留旧版本，创建新版本文件
+# 方式1: 使用版本号后缀
+chapters/第001章-新生.md      # 当前版本
+chapters/第001章-新生-v2.md   # 第二版
+chapters/第001章-新生-v3.md   # 第三版
+
+# 方式2: 使用日期后缀（如果同一天多次修改）
+chapters/第001章-新生-20260323.md
+
+# 推荐: 版本号后缀（简洁明了）
+```
+
+**5.2 Git 提交规范**
+
+**新创作**:
+```bash
 cd <novel-name>
 git add chapters/第X章-<标题>.md
-
-# 更新 README.md 的进度和目录
-git add README.md
-
-# 提交
+git add README.md  # 更新进度
 git commit -m "新增第X章: <标题> (XXXX字)"
-
-# 推送
 git push origin main
+git log --oneline -1  # 记录commit hash
+```
 
-# 记录本次提交的 commit hash (用于版本管理)
+**重新创作**:
+```bash
+cd <novel-name>
+# 添加新版本文件
+git add chapters/第X章-<标题>-v2.md
+# 可选：删除或重命名旧版本
+git mv chapters/第X章-<标题>.md chapters/第X章-<标题>-v1.md
+# 更新当前版本链接（如果使用符号链接）
+git add README.md  # 更新版本说明
+git commit -m "重新创作第X章: [改进要点]（如: 应用最新最佳实践）"
+git push origin main
 git log --oneline -1
 ```
 
+**版本管理最佳实践**:
+- ✅ **保留所有版本**：便于对比和回滚
+- ✅ **清晰的 commit message**：说明重写原因和改进点
+- ✅ **更新 README.md**：在版本历史区记录每次重写
+- ✅ **标注当前版本**：在 README.md 中明确当前使用的版本
+
 **步骤6: 向用户确认**
+
+**新创作**:
 ```
 ✅ 第X章《<标题>》创作完成！
 
@@ -256,10 +299,47 @@ git log --oneline -1
 - 处理读者反馈: ✅ / ⚠️ [如有待处理项]
 
 【提交状态】
+- 文件: chapters/第X章-<标题>.md
 - GitHub提交: ✅
 - Commit: [commit-hash]
 
 是否继续创作下一章?
+```
+
+**重新创作**:
+```
+✅ 第X章《<标题>》重新创作完成！
+
+【版本信息】
+- 新版本文件: chapters/第X章-<标题>-v2.md
+- 旧版本保留: chapters/第X章-<标题>.md（已重命名为v1）
+- 字数: XXXX字（旧版YYYY字）
+
+【改进要点】
+- [改进点1]: [具体说明]
+- [改进点2]: [具体说明]
+- [改进点3]: [具体说明]
+
+【应用的最佳实践】
+- [新应用的原则1]
+- [新应用的原则2]
+
+【自检结果】
+- 符合大纲: ✅
+- 遵守最佳实践: ✅
+- 处理读者反馈: ✅
+
+【提交状态】
+- GitHub提交: ✅
+- Commit: [commit-hash]
+- 提交信息: "重新创作第X章: [改进要点]"
+
+【对比建议】
+可以对比两个版本：
+- 旧版: chapters/第X章-<标题>-v1.md
+- 新版: chapters/第X章-<标题>-v2.md
+
+是否需要删除旧版本，或继续创作下一章？
 ```
 
 ---
@@ -334,24 +414,58 @@ git log --oneline -1
 ```
 
 **步骤5: 批量更新章节 (如用户选择 A)**
+
+**5.1 单章重新创作**
+```bash
+# 读取原章节
+cat chapters/第X章-<标题>.md
+
+# 重新创作（应用反馈意见）
+# 遵循创作规范:
+# 1. 保留旧版本: 重命名为 -v1 后缀
+# 2. 创建新版本: 使用 -v2 后缀
+# 3. 自检清单验证
+# 4. 标准 Git 提交
+
+mv chapters/第X章-<标题>.md chapters/第X章-<标题>-v1.md
+# 创作新版本，保存为 chapters/第X章-<标题>-v2.md
+git add chapters/第X章-<标题>*
+git commit -m "根据读者反馈重新创作第X章: [具体改进]"
+git push
+```
+
+**5.2 批量修改多个章节**
 ```bash
 # 1. 列出需要修改的章节
-affected_chapters=[第X章, 第Y章, ...]
+affected_chapters=[第X章, 第Y章, 第Z章]
 
-# 2. 逐一读取、修改、保存
+# 2. 逐一处理
 for chapter in affected_chapters:
-    - 读取原章节
-    - 根据反馈进行修改
-    - 自检
-    - 保存为新版本
+    echo "处理 $chapter ..."
     
-# 3. 提交
-git add chapters/
-git commit -m "根据读者反馈修改: [简要说明]"
+    # 备份旧版本
+    mv chapters/${chapter}.md chapters/${chapter}-v1.md
+    
+    # 创作新版本
+    # (读取大纲、应用反馈、自检)
+    
+    # 提交
+    git add chapters/${chapter}*
+    git commit -m "根据反馈修改 $chapter: [改进说明]"
+done
+
+# 3. 推送所有更改
 git push
 
 # 4. 更新 reader-feedback.md 状态为"已处理"
 ```
+
+**重新创作规范总结**:
+- ✅ **版本号管理**: 使用 -v1, -v2, -v3 等后缀
+- ✅ **保留旧版本**: 方便对比和回滚
+- ✅ **清晰的 commit**: 说明重写原因和改进点
+- ✅ **自检验证**: 每次重新创作都要过自检清单
+- ✅ **更新文档**: 在 README.md 记录版本变化
 
 ---
 
@@ -726,7 +840,7 @@ docs/
 
 ```yaml
 skill_name: novel-writer
-version: 1.0.0
+version: 1.1.0
 author: OpenClaw
 description: 网络小说创作与管理的系统化工具
 triggers:
@@ -735,6 +849,8 @@ triggers:
   - "开始新小说"
   - "写第X章"
   - "继续写"
+  - "重新创作第X章"
+  - "重写第X章"
   - "读者反馈"
   - "更新最佳实践"
   - "初始化小说项目"
@@ -744,10 +860,17 @@ dependencies:
   - github
 capabilities:
   - 项目初始化
-  - 章节创作
+  - 章节创作（新创作+重新创作）
   - 读者反馈管理
   - 最佳实践更新
   - 版本控制与回滚
+changelog:
+  v1.1.0:
+    - 新增: 重新创作章节功能（规范化版本管理）
+    - 优化: 文件命名与版本号管理
+    - 优化: Git提交信息规范化
+  v1.0.0:
+    - 初始版本
 ```
 
 ---
