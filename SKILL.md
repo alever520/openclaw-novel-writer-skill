@@ -226,28 +226,16 @@ touch references/writing-guide.md
 
 **步骤5: 提交到 GitHub**
 
-**5.1 文件命名与版本控制**
+**5.1 文件命名规范**
 
-**新创作章节**:
 ```bash
-# 文件名: 第XXX章-标题.md（使用三位数编号）
+# 统一命名格式: 第XXX章-标题.md（使用三位数编号）
 chapters/第001章-新生.md
 chapters/第023章-浮空城升空.md
+chapters/第456章-终章.md
 ```
 
-**重新创作章节**:
-```bash
-# 保留旧版本，创建新版本文件
-# 方式1: 使用版本号后缀
-chapters/第001章-新生.md      # 当前版本
-chapters/第001章-新生-v2.md   # 第二版
-chapters/第001章-新生-v3.md   # 第三版
-
-# 方式2: 使用日期后缀（如果同一天多次修改）
-chapters/第001章-新生-20260323.md
-
-# 推荐: 版本号后缀（简洁明了）
-```
+**新创作和重新创作都使用相同的文件名，通过 Git 历史管理版本。**
 
 **5.2 Git 提交规范**
 
@@ -264,22 +252,26 @@ git log --oneline -1  # 记录commit hash
 **重新创作**:
 ```bash
 cd <novel-name>
-# 添加新版本文件
-git add chapters/第X章-<标题>-v2.md
-# 可选：删除或重命名旧版本
-git mv chapters/第X章-<标题>.md chapters/第X章-<标题>-v1.md
-# 更新当前版本链接（如果使用符号链接）
-git add README.md  # 更新版本说明
-git commit -m "重新创作第X章: [改进要点]（如: 应用最新最佳实践）"
+# 直接修改原文件（Git 会自动追踪变更）
+git add chapters/第X章-<标题>.md
+git add README.md  # 可选：更新说明
+git commit -m "重新创作第X章: [改进要点]
+
+- 应用最新最佳实践（标志性特征、核心恐惧等）
+- 优化语言流畅度
+- 增强人物立体感
+
+字数: XXXX字（旧版YYYY字）"
 git push origin main
 git log --oneline -1
 ```
 
-**版本管理最佳实践**:
-- ✅ **保留所有版本**：便于对比和回滚
-- ✅ **清晰的 commit message**：说明重写原因和改进点
-- ✅ **更新 README.md**：在版本历史区记录每次重写
-- ✅ **标注当前版本**：在 README.md 中明确当前使用的版本
+**版本管理说明**:
+- ✅ **Git 自动保存历史**：每次提交都会保留完整的文件历史
+- ✅ **查看历史版本**：`git log --oneline -- chapters/第X章-标题.md`
+- ✅ **查看具体差异**：`git diff <commit1> <commit2> -- chapters/第X章-标题.md`
+- ✅ **回滚到旧版本**：`git checkout <commit-hash> -- chapters/第X章-标题.md`
+- ✅ **简洁的文件结构**：每章只有一个当前文件，历史在 Git 中
 
 **步骤6: 向用户确认**
 
@@ -288,6 +280,7 @@ git log --oneline -1
 ✅ 第X章《<标题>》创作完成！
 
 【章节信息】
+- 文件: chapters/第X章-<标题>.md
 - 字数: XXXX字
 - 主要剧情: [一句话概括]
 - 伏笔: [新埋下的伏笔]
@@ -299,7 +292,6 @@ git log --oneline -1
 - 处理读者反馈: ✅ / ⚠️ [如有待处理项]
 
 【提交状态】
-- 文件: chapters/第X章-<标题>.md
 - GitHub提交: ✅
 - Commit: [commit-hash]
 
@@ -310,9 +302,8 @@ git log --oneline -1
 ```
 ✅ 第X章《<标题>》重新创作完成！
 
-【版本信息】
-- 新版本文件: chapters/第X章-<标题>-v2.md
-- 旧版本保留: chapters/第X章-<标题>.md（已重命名为v1）
+【章节信息】
+- 文件: chapters/第X章-<标题>.md（已更新）
 - 字数: XXXX字（旧版YYYY字）
 
 【改进要点】
@@ -334,12 +325,12 @@ git log --oneline -1
 - Commit: [commit-hash]
 - 提交信息: "重新创作第X章: [改进要点]"
 
-【对比建议】
-可以对比两个版本：
-- 旧版: chapters/第X章-<标题>-v1.md
-- 新版: chapters/第X章-<标题>-v2.md
+【查看历史版本】
+- 查看所有版本: git log --oneline -- chapters/第X章-<标题>.md
+- 查看具体差异: git show <commit-hash>
+- 回滚到旧版: git checkout <commit-hash> -- chapters/第X章-<标题>.md
 
-是否需要删除旧版本，或继续创作下一章？
+是否继续创作下一章?
 ```
 
 ---
@@ -415,43 +406,42 @@ git log --oneline -1
 
 **步骤5: 批量更新章节 (如用户选择 A)**
 
-**5.1 单章重新创作**
+**单章重新创作**:
 ```bash
-# 读取原章节
-cat chapters/第X章-<标题>.md
+# 直接修改原文件（Git 会自动追踪变更）
+cd <novel-name>
 
-# 重新创作（应用反馈意见）
-# 遵循创作规范:
-# 1. 保留旧版本: 重命名为 -v1 后缀
-# 2. 创建新版本: 使用 -v2 后缀
+# 重新创作章节内容
+# 1. 读取大纲和反馈
+# 2. 创作新内容
 # 3. 自检清单验证
-# 4. 标准 Git 提交
 
-mv chapters/第X章-<标题>.md chapters/第X章-<标题>-v1.md
-# 创作新版本，保存为 chapters/第X章-<标题>-v2.md
-git add chapters/第X章-<标题>*
-git commit -m "根据读者反馈重新创作第X章: [具体改进]"
+# Git 提交
+git add chapters/第X章-<标题>.md
+git commit -m "根据读者反馈重新创作第X章: [具体改进]
+
+- 改进点1
+- 改进点2
+
+字数: XXXX字"
 git push
 ```
 
-**5.2 批量修改多个章节**
+**批量修改多个章节**:
 ```bash
 # 1. 列出需要修改的章节
-affected_chapters=[第X章, 第Y章, 第Z章]
+affected_chapters=("第001章-新生" "第002章-废弃实验室" "第003章-第一次实验")
 
 # 2. 逐一处理
-for chapter in affected_chapters:
+for chapter in "${affected_chapters[@]}"; do
     echo "处理 $chapter ..."
     
-    # 备份旧版本
-    mv chapters/${chapter}.md chapters/${chapter}-v1.md
-    
-    # 创作新版本
+    # 重新创作章节
     # (读取大纲、应用反馈、自检)
     
     # 提交
-    git add chapters/${chapter}*
-    git commit -m "根据反馈修改 $chapter: [改进说明]"
+    git add "chapters/${chapter}.md"
+    git commit -m "根据反馈重新创作${chapter}: [改进说明]"
 done
 
 # 3. 推送所有更改
@@ -460,12 +450,12 @@ git push
 # 4. 更新 reader-feedback.md 状态为"已处理"
 ```
 
-**重新创作规范总结**:
-- ✅ **版本号管理**: 使用 -v1, -v2, -v3 等后缀
-- ✅ **保留旧版本**: 方便对比和回滚
-- ✅ **清晰的 commit**: 说明重写原因和改进点
-- ✅ **自检验证**: 每次重新创作都要过自检清单
-- ✅ **更新文档**: 在 README.md 记录版本变化
+**版本管理说明**:
+- ✅ **Git 自动保存历史**：不需要手动创建 -v1, -v2 文件
+- ✅ **查看修改历史**：`git log -- chapters/第X章-标题.md`
+- ✅ **查看具体变更**：`git diff HEAD~1 -- chapters/第X章-标题.md`
+- ✅ **恢复旧版本**：`git checkout <commit-hash> -- chapters/第X章-标题.md`
+- ✅ **简洁的目录**：每章只有一个文件，历史在 Git 中
 
 ---
 
