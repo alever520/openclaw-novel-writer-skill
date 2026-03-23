@@ -634,6 +634,16 @@ git push
 
 **触发**: "更新最佳实践" / "同步参考资料"
 
+**适用范围**: 
+- ✅ references/writing-guide.md（创作指南）
+- ✅ references/outline.md（大纲文件）
+- ✅ references/ 目录下的所有参考文档
+
+**版本管理原则**:
+- **统一使用 Git 版本控制**：所有 references 文件直接修改，不创建副本或后缀版本
+- **清晰的 commit message**：说明更新内容和来源
+- **及时提交**：每次更新后立即 commit 和 push
+
 **操作流程**:
 
 **步骤1: 检查 docs/ 文件夹**
@@ -660,10 +670,13 @@ find docs/ -name "*.md" -newer references/writing-guide.md
 ```
 
 **步骤4: 更新 writing-guide.md**
+
+**直接修改原文件，不创建副本或版本号后缀**
+
 ```markdown
 ## 最近更新
 
-### YYYY-MM-DD
+### YYYY-MM-DD (更新说明)
 - 新增: [从 docs/xxx.md 中提取]
   - 要点1: [具体内容]
   - 要点2: [具体内容]
@@ -674,11 +687,62 @@ find docs/ -name "*.md" -newer references/writing-guide.md
   - 原因: [为什么修改]
 ```
 
-**步骤5: 提交更新**
+**步骤5: Git 提交**
+
 ```bash
+# 直接修改原文件
 git add references/writing-guide.md
-git commit -m "更新最佳实践: 整合 docs/xxx.md"
+
+# 清晰的 commit message
+git commit -m "更新最佳实践: 整合 docs/xxx.md
+
+新增内容:
+- [要点1]
+- [要点2]
+
+来源:
+- docs/xxx.md
+- 第XXX章实战经验"
+
 git push
+```
+
+**版本管理说明**:
+- ✅ **Git 自动保存历史**：每次修改都会保留完整历史记录
+- ✅ **查看历史版本**：`git log -- references/writing-guide.md`
+- ✅ **查看具体变更**：`git diff HEAD~1 -- references/writing-guide.md`
+- ✅ **对比任意两个版本**：`git diff <commit1> <commit2> -- references/writing-guide.md`
+- ✅ **恢复旧版本**：`git checkout <commit-hash> -- references/writing-guide.md`
+- ✅ **简洁的目录结构**：每个文件只有一个当前版本，历史在 Git 中
+
+**同样适用于其他 references 文件**:
+- `references/outline.md`：大纲更新
+- `references/reader-feedback.md`：读者反馈记录
+- `references/` 目录下的所有文档
+
+**示例 commit message**:
+```bash
+# writing-guide.md 更新
+git commit -m "更新最佳实践: 整合两份新文档
+
+参考文档:
+- docs/网络小说创作建议_读者反馈.md
+- docs/网络小说创作十大核心要点.md
+
+新增内容:
+- 章节结构优化
+- 语言流畅度提升
+- 爽点密度控制"
+
+# outline.md 更新
+git commit -m "创建大纲 v4.0: 250万字详细规划
+
+核心调整:
+- 总字数: 250万字
+- 章节数: 310章
+- 每章字数: 8000字
+
+详细规划前50章内容"
 ```
 
 **步骤6: 向用户汇报**
@@ -1078,7 +1142,7 @@ docs/
 
 ```yaml
 skill_name: novel-writer
-version: 1.2.1
+version: 1.2.2
 author: OpenClaw
 description: 网络小说创作与管理的系统化工具
 triggers:
@@ -1104,6 +1168,12 @@ capabilities:
   - 版本控制与回滚
   - 章节总结与分析
 changelog:
+  v1.2.2:
+    - 优化: references 文件更新统一遵循 Git 版本控制原则
+    - 明确: 所有 references 文件直接修改，不创建副本或后缀版本
+    - 新增: references 文件版本管理说明（查看历史、对比、恢复）
+    - 优化: commit message 模板，包含详细更新内容和来源
+    - 适用范围: writing-guide.md、outline.md、reader-feedback.md 等
   v1.2.1:
     - 优化: 更新最佳实践时明确列出参考的 docs 文件
     - 新增: 扫描 docs/ 文件夹并显示所有文档及修改时间
