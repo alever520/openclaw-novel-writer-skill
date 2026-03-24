@@ -93,16 +93,14 @@ cd my-novel/
 ```
 你: 写第一章
 AI: 
-  1. 读取大纲第一章任务
-  2. 读取 writing-guide.md、characters.md、reader-feedback.md
-  3. 创作3000-5000字章节
-  4. 【正文自检循环】
-     - 第一轮: 对照 writing-guide.md 逐条核查
-     - 第二轮: 对照 characters.md 逐角色核查
-     - 第三轮: 对照 reader-feedback.md 核查待处理问题
-     - 发现问题立即修正正文，全部通过才提交
-  5. 提交到 Git
-  6. 汇报完成情况（含自检循环结果）
+  1. 读取 outline.md，掌握全局，确认本章任务
+  2. 输出章节大纲（七模块），等待确认
+     → 确认后存档至 chapter-outlines/，并检查是否需要更新 outline.md
+  3. 读取 writing-guide.md 和 reader-feedback.md，总结本章写作关键点
+  4. 按确认大纲创作正文
+  5. 自检清单（15项）
+  6. 提交到 Git
+  7. 章节总结（含全局大纲更新记录、角色变更等）
 ```
 
 ### 处理反馈
@@ -111,18 +109,27 @@ AI:
 AI:
   1. 记录到 reader-feedback.md
   2. 分析影响范围
-  3. 提供处理建议
-  4. 询问是否修改
+  3. 提供处理建议（立即修改/后续注意/忽略）
+  4. 若选择修改，按章节创作流程（步骤1→7）完整执行
 ```
 
-### 更新最佳实践
+### 更新写作指导
 ```
-你: 更新最佳实践
+你: 更新写作指导
 AI:
-  1. 扫描 docs/ 新增内容
-  2. 提取关键要点
-  3. 更新 writing-guide.md
-  4. 应用到后续创作
+  1. 扫描 docs/writing-guide/ 新文档
+  2. 提取要点（语言/节奏/人物/信息展现/对话等维度）
+  3. 整合进 references/writing-guide.md 对应章节
+  4. 汇报新增要点摘要
+```
+
+### 更新读者反馈
+```
+你: 更新读者反馈
+AI:
+  1. 扫描 docs/reader-feedback/ 新文档
+  2. 提取并整合进 references/reader-feedback.md
+  3. 汇报影响评估，询问是否立即修改章节
 ```
 
 ---
@@ -131,16 +138,22 @@ AI:
 
 ```
 your-novel/
-├── chapters/              # 章节文件
+├── chapters/              # 章节正文文件
 │   ├── 第001章-标题.md
 │   ├── 第002章-标题.md
 │   └── ...
-├── references/            # 参考文档
-│   ├── outline.md         # 大纲（必填）
-│   ├── writing-guide.md   # 创作指南（可选）
-│   └── reader-feedback.md # 读者反馈（自动）
-├── docs/                  # 参考资料
-│   ├── 网文写作指南.md
+├── chapter-outlines/      # 章节大纲文件（确认后自动存档）
+│   ├── 第001章-标题-大纲.md
+│   └── ...
+├── references/            # 核心参考文档
+│   ├── outline.md         # 全局大纲（必填）
+│   ├── writing-guide.md   # 写作指导（自动维护）
+│   ├── characters.md      # 人物卡（自动维护）
+│   └── reader-feedback.md # 读者反馈（自动维护）
+├── docs/                  # 原始资料收集
+│   ├── writing-guide/     # 写作指导原始文档 → "更新写作指导"整合
+│   ├── reader-feedback/   # 读者反馈原始文档 → "更新读者反馈"整合
+│   ├── characters/        # 人物设定原始资料 → "更新人物卡"整合
 │   └── ...
 └── README.md              # 项目首页
 ```
@@ -165,12 +178,12 @@ your-novel/
 4. 继续创作
 ```
 
-### 场景3: 我有参考资料想整合
+### 场景3: 我有写作参考资料想整合
 ```
-1. 将参考资料放入 docs/
-2. 说 "更新最佳实践"
-3. Skill 自动提取要点到 writing-guide.md
-4. 后续创作自动应用这些原则
+1. 将参考资料放入 docs/writing-guide/
+2. 说 "更新写作指导"
+3. Skill 自动提取要点整合进 references/writing-guide.md
+4. 后续创作步骤3会自动读取并应用这些原则
 ```
 
 ### 场景4: 读者有反馈需要处理
