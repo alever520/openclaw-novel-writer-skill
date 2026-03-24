@@ -23,7 +23,7 @@ OpenClaw 网络小说创作与管理的系统化工具。
 ```
 
 Skill 会引导你：
-- 创建项目目录结构 (chapters, references, docs)
+- 创建项目目录结构 (chapters, chapter-outlines, references, docs)
 - 初始化 Git 仓库并关联 GitHub
 - 创建基础文件 (README, outline, writing-guide, reader-feedback)
 
@@ -70,12 +70,16 @@ Skill 会：
 
 ```
 your-novel/
-├── chapters/              # 章节文件
+├── chapters/              # 章节正文文件
 │   ├── 第001章-新生.md
 │   ├── 第002章-废弃实验室.md
 │   └── ...
+├── chapter-outlines/      # 章节大纲文件（创作前确认，自动存档）
+│   ├── 第001章-新生-大纲.md
+│   ├── 第002章-废弃实验室-大纲.md
+│   └── ...
 ├── references/            # 参考文档
-│   ├── outline.md         # 大纲
+│   ├── outline.md         # 全局大纲
 │   ├── writing-guide.md   # 创作指南
 │   └── reader-feedback.md # 读者反馈
 ├── docs/                  # 参考资料

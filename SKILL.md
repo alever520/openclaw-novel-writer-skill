@@ -24,7 +24,7 @@
 
 ```bash
 # 1. 创建项目目录结构
-mkdir -p <novel-name>/{chapters,references,docs/{reader-feedback,characters,writing-guide}}
+mkdir -p <novel-name>/{chapters,chapter-outlines,references,docs/{reader-feedback,characters,writing-guide}}
 
 # 2. 初始化 Git 仓库
 cd <novel-name>
@@ -302,7 +302,11 @@ EOF
 **大纲确认循环**：
 - 若用户提出修改意见 → 按意见修改 → 再次展示 → 再次确认
 - 大纲修改建议**无需写入 reader-feedback.md**，除非用户明确要求
-- 用户确认后，进入步骤3
+- 用户确认后，将大纲写入 `chapter-outlines/` 文件夹，命名格式与章节文件对齐：
+  ```
+  chapter-outlines/第XXX章-标题-大纲.md
+  ```
+  然后进入步骤3
 
 ---
 
@@ -325,6 +329,8 @@ EOF
 ---
 
 **步骤4: 创作章节正文**
+
+如需回顾章节大纲，可先读取 `chapter-outlines/第XXX章-标题-大纲.md`，再开始创作。
 
 - 严格按步骤2确认的章节大纲推进剧情
 - 场景顺序、节奏安排、伏笔处理均参照大纲执行
@@ -1438,7 +1444,7 @@ docs/
 
 ```yaml
 skill_name: novel-writer
-version: 1.5.0
+version: 1.6.0
 author: OpenClaw
 description: 网络小说创作与管理的系统化工具
 triggers:
@@ -1467,7 +1473,11 @@ capabilities:
   - 版本控制与回滚
   - 章节总结与分析
 changelog:
-  v1.5.0:
+  v1.6.0:
+    - 新增: 初始化流程中创建 chapter-outlines/ 文件夹
+    - 新增: 步骤2（创作章节大纲）用户确认后，自动将大纲写入 chapter-outlines/第XXX章-标题-大纲.md
+    - 优化: 步骤4（创作章节正文）开始前，可先读取 chapter-outlines/ 中的大纲文件（如需要）
+    - 更新: README.md 目录结构说明增加 chapter-outlines/
     - 重构: 章节创作流程重新整理为清晰的7步骤（原步骤0+1+2+3 → 新步骤1+2+3+4）
     - 步骤1: 读取全局大纲（outline.md 是骨架，先读再动笔）
     - 步骤2: 创作章节大纲（七模块完整格式，场景内对话示例为必填项）
