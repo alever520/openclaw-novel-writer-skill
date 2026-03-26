@@ -620,11 +620,31 @@ git log --oneline -1
 ```
 
 **6.7 字数统计**
+
+⚠️ **统计规则**：只统计**正文内容**字数，不包括以下内容：
+- 章节标题（`# 第XXX章 标题`）
+- Markdown 格式标记（`#`, `**`, `>` 等）
+- 章节后的元数据（核心目标、场景序列、伏笔等规划信息）
+- 大纲中的说明性文字（"关键对话示例"、"人物动向"等）
+
+**统计方法**：
+```bash
+# 推荐统计方式：去除标题行后的字符总数（含标点、空格）
+python3 << 'EOF'
+with open('chapters/第XXX章-标题.md', 'r', encoding='utf-8') as f:
+    content = f.read()
+lines = content.split('\n')
+text_lines = [line for line in lines if not line.strip().startswith('#')]
+char_count = sum(len(line) for line in text_lines)
+print(f"正文字数: {char_count}字")
+EOF
+```
+
 ```markdown
 ## 📊 字数统计
 
-- **纯文本字数**: XXXX 字
-- **包含标点**: YYYY 字
+- **正文字数**: XXXX 字（去除标题行）
+- **中文字符**: YYYY 字
 - **段落数**: ZZ 段
 - **对话占比**: XX%
 - **描写占比**: YY%
