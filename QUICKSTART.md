@@ -234,8 +234,19 @@ README.md 自动记录：
 
 ### 统计信息
 ```bash
-# 总字数
-find chapters/ -name "*.md" -exec wc -w {} + | tail -1
+# 正文总字数（去除标题行）
+python3 << 'EOF'
+import os
+total = 0
+for file in os.listdir('chapters/'):
+    if file.endswith('.md'):
+        with open(f'chapters/{file}', 'r', encoding='utf-8') as f:
+            content = f.read()
+            lines = content.split('\n')
+            text_lines = [line for line in lines if not line.strip().startswith('#')]
+            total += sum(len(line) for line in text_lines)
+print(f"正文总字数: {total}字")
+EOF
 
 # 章节数
 ls chapters/*.md | wc -l
